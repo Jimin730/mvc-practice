@@ -6,8 +6,7 @@ import com.spring.boardproject.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -26,21 +25,25 @@ public class MemberController {
     }
 
     @PostMapping("signup")
-    public ModelAndView signup(ModelAndView modelAndView, WebRequest request) {
+    public String signup(MemberDTO memberDTO, RedirectAttributes rttr) {
 
-        String loginId = request.getParameter("loginId");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String nickName = request.getParameter("nickName");
+        try {
 
-        MemberDTO memberDTO = new MemberDTO(loginId, password, name, nickName);
+            MemberRegisterResponseDTO member = memberService.saveMember(memberDTO);
 
-        MemberRegisterResponseDTO member = memberService.saveMember(memberDTO);
+            rttr.addFlashAttribute("nickName", member.getNickName());
+            rttr.addFlashAttribute("signupSuccess", true); // 회원가입 성공
 
-        modelAndView.addObject("nickname", member.getNickName());
-        modelAndView.setViewName("main/main");
+            return "redirect:/main"; // 회원가입 성공 시 메인으로 리다이렉트
 
-        return modelAndView;
+        } catch (Exception e) {
+
+            e.printStackTrace(); // 콘솔에 에러로그 출력
+
+            rttr.addFlashAttribute("errorMessage", "회원가입 중 오류가 발생했습니다." + e.getMessage());
+
+            return "redirect:/member/signup"; // 회원가입 실패 시 다시 회원가입 페이지로 리다이렉트
+        }
     }
 
 
