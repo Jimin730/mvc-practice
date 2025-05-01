@@ -26,7 +26,7 @@ public class MemberController {
     }
 
     @PostMapping("signup")
-    public String signup(@Valid @RequestBody MemberDTO memberDTO, RedirectAttributes rttr) {
+    public String signup(@Valid MemberDTO memberDTO, RedirectAttributes rttr) {
 
         try {
             MemberRegisterResponseDTO member = memberService.saveMember(memberDTO);
