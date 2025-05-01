@@ -3,6 +3,7 @@ package com.spring.boardproject.member.controller;
 import com.spring.boardproject.member.dto.MemberDTO;
 import com.spring.boardproject.member.dto.MemberRegisterResponseDTO;
 import com.spring.boardproject.member.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +26,16 @@ public class MemberController {
     }
 
     @PostMapping("signup")
-    public String signup(MemberDTO memberDTO, RedirectAttributes rttr) {
+    public String signup(@Valid @RequestBody MemberDTO memberDTO, RedirectAttributes rttr) {
 
         try {
-
             MemberRegisterResponseDTO member = memberService.saveMember(memberDTO);
 
             rttr.addFlashAttribute("nickName", member.getNickName());
-            rttr.addFlashAttribute("signupSuccess", true); // 회원가입 성공
 
             return "redirect:/main"; // 회원가입 성공 시 메인으로 리다이렉트
 
         } catch (Exception e) {
-
             e.printStackTrace(); // 콘솔에 에러로그 출력
 
             rttr.addFlashAttribute("errorMessage", "회원가입 중 오류가 발생했습니다." + e.getMessage());
