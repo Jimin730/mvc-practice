@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+</head>
+<body>
+    <h1>Main Page</h1>
+    <hr>
+    <button onclick="location.href='/login'">로그인</button>
+    <button onclick="location.href='/member/signup'">회원가입</button>
+    <button onclick="location.href='/writeboard'">게시글작성</button>
+
+    <p th:text="${nickname} != null ? ${nickname} + '님 환영합니다' : '환영합니다'"></p>
+
+</body>
+</html>

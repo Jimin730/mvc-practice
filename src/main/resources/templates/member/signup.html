@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/signup.css}">
+</head>
+<body>
+<div class="container signup-container">
+    <div class="signup-form">
+        <h2 class="text-center mb-4">회원가입</h2>
+        <form action="/member/signup" method="post">
+            <div class="form-group">
+                <label for="loginId">로그인 ID:</label>
+                <div class="id-check-row">
+                    <div class="flex-grow-1 mr-2">
+                        <input type="text" id="loginId" name="loginId" class="form-control" required>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary" onclick="checkLoginId()">
+                            중복확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="name">이름:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="nickName">닉네임:</label>
+                <div class="id-check-row">
+                    <div class="flex-grow-1 mr-2">
+                        <input type="text" id="nickName" name="nickName" class="form-control" required>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary" onclick="checkNickName()">
+                            중복확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">회원가입</button>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/signup.js}"></script>
+
+</body>
+</html>
