@@ -45,6 +45,12 @@ function checkNickName() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // 회원가입 실패 시 에러 메시지 존재할 때만 출력
+    if (typeof serverErrorMessage !== 'undefined' && serverErrorMessage != null && serverErrorMessage !== '') {
+        alert(serverErrorMessage);
+    }
+
     const signupForm = document.getElementById('signupForm'); // 폼 ID로 가져옵니다.
     const loginIdInput = document.getElementById('loginId');
     const passwordInput = document.getElementById('password');
@@ -69,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 폼 제출 이벤트를 감지합니다.
     signupForm.addEventListener('submit', function(event) {
+
         let isValid = true; // 폼 유효성 상태를 나타내는 플래그
 
         // 각 필드를 확인하고 오류 메시지를 표시합니다.
