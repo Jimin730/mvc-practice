@@ -18,3 +18,9 @@ body, html {
     display: flex;
     align-items: end;
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: block; /* 각 메시지가 새로운 줄에 표시되도록 */
+    margin-top: 5px;
+}
