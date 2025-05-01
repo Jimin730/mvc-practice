@@ -1,12 +1,10 @@
 package com.spring.boardproject.member.controller;
 
+import com.spring.boardproject.member.dto.CheckResponseDTO;
 import com.spring.boardproject.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,27 +22,23 @@ public class MemberRestController {
 
     //로그인 ID 중복 확인
     @PostMapping("/checkLoginId")
-    public ResponseEntity<Map<String, Boolean>> checkLoginId(@RequestBody Map<String, String> request) {
+    public ResponseEntity<CheckResponseDTO> checkLoginId(@RequestParam String loginId) {
 
-        String loginId = request.get("loginId");
         boolean isDuplicate = memberService.checkLoginDuplicate(loginId);
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isDuplicate", isDuplicate);
+        CheckResponseDTO responseDTO = new CheckResponseDTO(isDuplicate);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responseDTO);
     }
 
     //닉네임 중복 확인
     @PostMapping("/checkNickName")
-    public ResponseEntity<Map<String, Boolean>> checkNickName(@RequestBody Map<String, String> request) {
+    public ResponseEntity<CheckResponseDTO> checkNickName(@RequestParam String nickName) {
 
-        String nickName = request.get("nickName");
         boolean isDuplicate = memberService.checkNickNameDuplicate(nickName);
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isDuplicate", isDuplicate);
+        CheckResponseDTO responseDTO = new CheckResponseDTO(isDuplicate);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responseDTO);
     }
 }
