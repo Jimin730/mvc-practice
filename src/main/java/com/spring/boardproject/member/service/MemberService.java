@@ -1,11 +1,11 @@
 package com.spring.boardproject.member.service;
 
+import com.spring.boardproject.global.exception.DuplicateException;
 import com.spring.boardproject.member.domain.Member;
 import com.spring.boardproject.member.dto.MemberDTO;
 import com.spring.boardproject.member.dto.MemberRegisterResponseDTO;
 import com.spring.boardproject.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,18 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberRegisterResponseDTO saveMember(MemberDTO memberDTO) {
+    public MemberRegisterResponseDTO saveMember(MemberDTO memberDTO) throws DuplicateException {
+
+        // 로그인 id 중복 확인
+        if (memberRepository.existsByLoginId(memberDTO.getLoginId())) {
+            throw new DuplicateException("이미 사용 중인 ID 입니다.");
+        }
+
+        // 닉네임 중복 확인
+        if (memberRepository.existsByNickName(memberDTO.getNickName())) {
+            throw new DuplicateException("이미 사용 중인 닉네임입니다.");
+        }
+
         Member member = Member.builder()
                 .loginId(memberDTO.getLoginId())
                 .password(memberDTO.getPassword())

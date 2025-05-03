@@ -1,5 +1,6 @@
 package com.spring.boardproject.member.controller;
 
+import com.spring.boardproject.global.exception.DuplicateException;
 import com.spring.boardproject.member.dto.MemberDTO;
 import com.spring.boardproject.member.dto.MemberRegisterResponseDTO;
 import com.spring.boardproject.member.service.MemberService;
@@ -35,9 +36,17 @@ public class MemberController {
 
             return "redirect:/main"; // 회원가입 성공 시 메인으로 리다이렉트
 
-        } catch (Exception e) {
-            e.printStackTrace(); // 콘솔에 에러로그 출력
+        } catch (DuplicateException e) { // 중복 확인 예외 처리
 
+            e.printStackTrace();
+            rttr.addFlashAttribute("errorMessage", e.getMessage());
+            rttr.addFlashAttribute("memberDTO", memberDTO); // 입력했던 데이터 유지
+
+            return "redirect:/member/signup";
+
+        } catch (Exception e) {
+
+            e.printStackTrace(); // 콘솔에 에러로그 출력
             rttr.addFlashAttribute("errorMessage", "회원가입 중 오류가 발생했습니다." + e.getMessage());
 
             return "redirect:/member/signup"; // 회원가입 실패 시 다시 회원가입 페이지로 리다이렉트
