@@ -5,12 +5,13 @@ import com.spring.boardproject.member.dto.MemberDTO;
 import com.spring.boardproject.member.dto.MemberRegisterResponseDTO;
 import com.spring.boardproject.member.service.MemberService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+@Slf4j
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
@@ -38,7 +39,7 @@ public class MemberController {
 
         } catch (DuplicateException e) { // 중복 확인 예외 처리
 
-            e.printStackTrace();
+            log.error(e.getMessage());
             rttr.addFlashAttribute("errorMessage", e.getMessage());
             rttr.addFlashAttribute("memberDTO", memberDTO); // 입력했던 데이터 유지
 
@@ -46,7 +47,7 @@ public class MemberController {
 
         } catch (Exception e) {
 
-            e.printStackTrace(); // 콘솔에 에러로그 출력
+            log.error(e.getMessage());
             rttr.addFlashAttribute("errorMessage", "회원가입 중 오류가 발생했습니다." + e.getMessage());
 
             return "redirect:/member/signup"; // 회원가입 실패 시 다시 회원가입 페이지로 리다이렉트
